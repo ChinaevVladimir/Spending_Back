@@ -21,3 +21,14 @@ module.exports.createNewTask = (req, res) => {
       );
   }
 };
+
+module.exports.daleteTask = (req, res) => {
+  _id = req.query._id;
+  if (!_id) {
+    return res.status(422).send("Error! Params not correct");
+  } else {
+    Task.deleteOne({ _id }).then((result) =>
+      Task.find().then((result) => res.send({ data: result }))
+    );
+  }
+};
