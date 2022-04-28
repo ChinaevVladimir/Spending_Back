@@ -32,3 +32,25 @@ module.exports.daleteTask = (req, res) => {
     );
   }
 };
+
+module.exports.changeTaskInfo = (req, res) => {
+  const body = req.body;
+  const query = req.query;
+  try {
+    if (
+      !(
+        body.hasOwnProperty("text") &&
+        body.hasOwnProperty("sum") &&
+        query.hasOwnProperty("_id")
+      )
+    ) {
+      res.status(422).send("add params please!");
+    } else {
+      Task.updateOne({ _id: query._id }, body).then((result) =>
+        Task.find().then((result) => res.send({ data: result }))
+      );
+    }
+  } catch (err) {
+    res.status(err).send(err);
+  }
+};
