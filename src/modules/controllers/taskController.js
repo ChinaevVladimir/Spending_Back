@@ -40,6 +40,7 @@ module.exports.changeTaskInfo = (req, res) => {
       !(
         body.hasOwnProperty("text") &&
         body.hasOwnProperty("sum") &&
+        body.hasOwnProperty("date") &&
         body.hasOwnProperty("_id")
       )
     ) {
