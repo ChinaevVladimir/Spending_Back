@@ -22,7 +22,7 @@ module.exports.createNewTask = (req, res) => {
   }
 };
 
-module.exports.daleteTask = (req, res) => {
+module.exports.deleteTask = (req, res) => {
   _id = req.query._id;
   if (!_id) {
     return res.status(422).send("Error! Params not correct");
@@ -30,5 +30,27 @@ module.exports.daleteTask = (req, res) => {
     Task.deleteOne({ _id }).then((result) =>
       Task.find().then((result) => res.send({ data: result }))
     );
+  }
+};
+
+module.exports.changeTaskInfo = (req, res) => {
+  const body = req.body;
+  try {
+    if (
+      !(
+        body.hasOwnProperty("text") &&
+        body.hasOwnProperty("sum") &&
+        body.hasOwnProperty("date") &&
+        body.hasOwnProperty("_id")
+      )
+    ) {
+      res.status(422).send("add params please!");
+    } else {
+      Task.updateOne({ _id: body._id }, body).then((result) =>
+        Task.find().then((result) => res.send({ data: result }))
+      );
+    }
+  } catch (err) {
+    res.status(404).send("not found");
   }
 };
